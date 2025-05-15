@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Dashboard</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h2>Admin Panel</h2>
+    <button id="showData">Show Users & Agents</button>
+    
+    <div id="dataTable"></div>
+
+    <script>
+        $("#showData").click(function() {
+            $.ajax({
+                url: "fetch_data.php",
+                type: "GET",
+                success: function(response) {
+                    $("#dataTable").html(response);
+                }
+            });
+        });
+
+        
+    function editUser(id) {
+        window.location.href = "edit.php?id=" + id + "&role=user";
+    }
+
+    function editAgent(id) {
+        window.location.href = "edit.php?id=" + id + "&role=agent";
+    }
+
+    function deleteUser(id) {
+        if (confirm("Are you sure you want to delete this user?")) {
+            $.ajax({
+                url: "delete.php?id=" + id + "&role=user",
+                type: "GET",
+                success: function() {
+                    alert("User deleted successfully!");
+                    $("#showData").click(); // Refresh data
+                }
+            });
+        }
+    }
+
+    function deleteAgent(id) {
+        if (confirm("Are you sure you want to delete this agent?")) {
+            $.ajax({
+                url: "delete.php?id=" + id + "&role=agent",
+                type: "GET",
+                success: function() {
+                    alert("Agent deleted successfully!");
+                    $("#showData").click(); // Refresh data
+                }
+            });
+        }
+    }
+</script>
+    
+</body>
+</html>
